@@ -5,12 +5,14 @@ import java.awt.*;
 import javax.crypto.SecretKey;
 
 public class EncryptionUI extends JFrame {
+    private static final long serialVersionUID = 1L;
+
     private JTextArea inputTextArea, resultTextArea;
     private JButton encryptButton;
 
     public EncryptionUI() {
-        setTitle("AES vs DES Encryption Comparison");
-        setSize(600, 450);
+        setTitle("AES vs DES Encryption");
+        setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -42,29 +44,60 @@ public class EncryptionUI extends JFrame {
         try {
             String input = inputTextArea.getText();
             if (input.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a message to encrypt.");
+                JOptionPane.showMessageDialog(this, "Enter a message.");
                 return;
             }
 
+            int size = input.getBytes().length;
+
             SecretKey aesKey = AesUtils.generateAESKey();
-            long aesStart = System.nanoTime();
-            String aesEncrypted = AesUtils.encryptAES(input, aesKey);
-            String aesDecrypted = AesUtils.decryptAES(aesEncrypted, aesKey);
-            long aesTime = (System.nanoTime() - aesStart) / 1_000_000;
-
             SecretKey desKey = DesUtils.generateDESKey();
-            long desStart = System.nanoTime();
-            String desEncrypted = DesUtils.encryptDES(input, desKey);
-            String desDecrypted = DesUtils.decryptDES(desEncrypted, desKey);
-            long desTime = (System.nanoTime() - desStart) / 1_000_000;
 
-            resultTextArea.setText("Input Size: " + input.getBytes().length + " bytes\n\n" +
-                    "--- AES ---\nEncrypted: " + aesEncrypted + "\nDecrypted: " + aesDecrypted + "\nTime: " + aesTime + " ms\n\n" +
-                    "--- DES ---\nEncrypted: " + desEncrypted + "\nDecrypted: " + desDecrypted + "\nTime: " + desTime + " ms\n\n" +
-                    (aesTime < desTime ? "AES is faster." : "DES is faster."));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Encryption Error: " + ex.getMessage());
+            int iterations = 1000; // run multiple times for stable timing
+
+            // AES timing
+            long aesTotalTime = 0;
+            String aesEncrypted = null;
+            String aesDecrypted = null;
+            for (int i = 0; i < iterations; i++) {
+                long start = System.nanoTime();
+                aesEncrypted = AesUtils.encryptAES(input, aesKey);
+                aesDecrypted = AesUtils.decryptAES(aesEncrypted, aesKey);
+                long end = System.nanoTime();
+                aesTotalTime += (end - start);
+            }
+            double aesAvgTimeMs = (aesTotalTime / (double) iterations) / 1_000_000.0;
+
+            // DES timing
+            long desTotalTime = 0;
+            String desEncrypted = null;
+            String desDecrypted = null;
+            for (int i = 0; i < iterations; i++) {
+                long start = System.nanoTime();
+                desEncrypted = DesUtils.encryptDES(input, desKey);
+                desDecrypted = DesUtils.decryptDES(desEncrypted, desKey);
+                long end = System.nanoTime();
+                desTotalTime += (end - start);
+            }
+            double desAvgTimeMs = (desTotalTime / (double) iterations) / 1_000_000.0;
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Input Size: ").append(size).append(" bytes\n\n")
+              .append("--- AES ---\n")
+              .append("Encrypted: ").append(aesEncrypted).append("\n")
+              .append("Decrypted: ").append(aesDecrypted).append("\n")
+              .append(String.format("Avg Time: %.3f ms\n\n", aesAvgTimeMs))
+              .append("--- DES ---\n")
+              .append("Encrypted: ").append(desEncrypted).append("\n")
+              .append("Decrypted: ").append(desDecrypted).append("\n")
+              .append(String.format("Avg Time: %.3f ms\n\n", desAvgTimeMs))
+              .append(aesAvgTimeMs < desAvgTimeMs ? "AES is faster." : "DES is faster.");
+
+            resultTextArea.setText(sb.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
 
