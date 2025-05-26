@@ -1,4 +1,4 @@
-package org.cloudbus.cloudsim.examples;
+package org.cloudbus.cloudsim.examples.AESandDES;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +9,8 @@ public class EncryptionUI extends JFrame {
     private JButton encryptButton;
 
     public EncryptionUI() {
-        setTitle("AES vs DES Encryption");
-        setSize(600, 400);
+        setTitle("AES vs DES Encryption Comparison");
+        setSize(600, 450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -42,34 +42,29 @@ public class EncryptionUI extends JFrame {
         try {
             String input = inputTextArea.getText();
             if (input.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Enter a message.");
+                JOptionPane.showMessageDialog(this, "Please enter a message to encrypt.");
                 return;
             }
-
-            int size = input.getBytes().length;
 
             SecretKey aesKey = AesUtils.generateAESKey();
             long aesStart = System.nanoTime();
             String aesEncrypted = AesUtils.encryptAES(input, aesKey);
             String aesDecrypted = AesUtils.decryptAES(aesEncrypted, aesKey);
-            long aesEnd = System.nanoTime();
-            long aesTime = (aesEnd - aesStart) / 1_000_000;
+            long aesTime = (System.nanoTime() - aesStart) / 1_000_000;
 
             SecretKey desKey = DesUtils.generateDESKey();
             long desStart = System.nanoTime();
             String desEncrypted = DesUtils.encryptDES(input, desKey);
             String desDecrypted = DesUtils.decryptDES(desEncrypted, desKey);
-            long desEnd = System.nanoTime();
-            long desTime = (desEnd - desStart) / 1_000_000;
+            long desTime = (System.nanoTime() - desStart) / 1_000_000;
 
-            resultTextArea.setText("Input Size: " + size + " bytes\n\n" +
+            resultTextArea.setText("Input Size: " + input.getBytes().length + " bytes\n\n" +
                     "--- AES ---\nEncrypted: " + aesEncrypted + "\nDecrypted: " + aesDecrypted + "\nTime: " + aesTime + " ms\n\n" +
                     "--- DES ---\nEncrypted: " + desEncrypted + "\nDecrypted: " + desDecrypted + "\nTime: " + desTime + " ms\n\n" +
                     (aesTime < desTime ? "AES is faster." : "DES is faster."));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Encryption Error: " + ex.getMessage());
         }
     }
 

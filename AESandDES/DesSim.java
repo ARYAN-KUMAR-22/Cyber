@@ -7,11 +7,11 @@ import org.cloudbus.cloudsim.provisioners.*;
 import javax.crypto.SecretKey;
 import java.util.*;
 
-public class AesSim {
+public class DesSim {
     public static void main(String[] args) {
         try {
             CloudSim.init(1, Calendar.getInstance(), false);
-            Datacenter datacenter = createDatacenter("Datacenter_AES");
+            Datacenter datacenter = createDatacenter("Datacenter_DES");
             DatacenterBroker broker = new DatacenterBroker("Broker");
 
             int brokerId = broker.getId();
@@ -23,14 +23,14 @@ public class AesSim {
             broker.submitVmList(vmList);
 
             String originalData = "This is secret data between VM1 and VM2";
-            SecretKey key = AesUtils.generateAESKey();
+            SecretKey key = DesUtils.generateDESKey();
 
             long start = System.currentTimeMillis();
-            String encrypted = AesUtils.encryptAES(originalData, key);
-            String decrypted = AesUtils.decryptAES(encrypted, key);
+            String encrypted = DesUtils.encryptDES(originalData, key);
+            String decrypted = DesUtils.decryptDES(encrypted, key);
             long duration = System.currentTimeMillis() - start;
 
-            long mi = duration * 1000; // Used as additional length in cloudlet
+            long mi = duration * 1000;
 
             UtilizationModel utilization = new UtilizationModelFull();
             Cloudlet cloudlet = new Cloudlet(0, 40000 + mi, 1, 300, 300, utilization, utilization, utilization);
@@ -44,7 +44,7 @@ public class AesSim {
 
             printResults(broker.getCloudletReceivedList());
 
-            System.out.println("\nAES Encryption Time: " + duration + " ms");
+            System.out.println("\nDES Encryption Time: " + duration + " ms");
             System.out.println("Encrypted: " + encrypted);
             System.out.println("Decrypted: " + decrypted);
         } catch (Exception e) {
