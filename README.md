@@ -67,9 +67,3 @@ Decrypted Text: Hello, World!
 
 This project is intended for educational and research purposes. Do **not** use this implementation in production environments without enhancing the security model (e.g., key exchange protocols, secure key storage, IV generation, and advanced padding schemes).
 
-```
-
----
-
-Let me know if you'd like to integrate this with actual CloudSim simulation classes or expand this into a full simulation workflow with VM tasks and encrypted message exchanges!
-```
