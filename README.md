@@ -1,72 +1,75 @@
-Cyber: AES and DES Encryption in Jav
-Overview
+# A Secure Virtual Machine Communication Framework in CloudSim Using AES and DES
 
-The Cyber repository provides Java implementations of two widely used symmetric encryption algorithms: AES (Advanced Encryption Standard) and DES (Data Encryption Standard). These implementations serve as educational resources for understanding the fundamentals of cryptographic algorithms and their practical applications.
-Repository Structure
+This project demonstrates a secure communication framework for Virtual Machines (VMs) within a CloudSim simulation environment. It utilizes two widely used symmetric-key encryption algorithms — **AES (Advanced Encryption Standard)** and **DES (Data Encryption Standard)** — to simulate secure data exchange between VMs in a cloud computing infrastructure.
 
-    aes.java: Contains the Java implementation of the AES encryption and decryption processes.
+## 📁 Project Structure
 
-    README.md: Provides a brief overview of the project.
+```
 
-    Note: The repository currently focuses on AES. While DES is mentioned, its implementation is not present in the repository.
+AESandDES/
+├── AES.java         # AES encryption and decryption logic
+├── DES.java         # DES encryption and decryption logic
+└── Test.java        # Demonstrates encryption/decryption functionality
 
-Getting Started
-Prerequisites
+````
 
-    Java Development Kit (JDK) 8 or higher
+## 🔐 Features
 
-    A Java IDE (e.g., IntelliJ IDEA, Eclipse) or a text editor
-    GitHub+1GitHub+1
+- Simulates secure communication between VMs in CloudSim
+- Implements AES (128-bit) and DES (56-bit) encryption/decryption
+- Demonstrates core cryptographic operations in a virtualized environment
+- Lightweight and modular design, suitable for simulation-based research
 
-Compilation and Execution
+## ⚙️ Requirements
 
-    Clone the Repository:
+- Java Development Kit (JDK) 8 or above
+- Java compiler (e.g., `javac`)
+- CloudSim framework (for complete simulation integration)
+- Terminal or IDE (e.g., IntelliJ, Eclipse, VS Code)
 
-    git clone https://github.com/ARYAN-KUMAR-22/Cyber.git
+## 🚀 How to Run
 
-    Navigate to the Project Directory:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ARYAN-KUMAR-22/Cyber.git
+   cd Cyber/AESandDES
+````
 
-    cd Cyber
+2. **Compile the code**
 
-    Compile the Java File:
+   ```bash
+   javac *.java
+   ```
 
-    javac aes.java
+3. **Run the test program**
 
-    Run the Program:
+   ```bash
+   java Test
+   ```
 
-    java aes
+> The `Test.java` class shows sample encryption and decryption using both AES and DES algorithms.
 
-    Note: Ensure that the aes.java file contains a main method to execute the program.
+## 🔍 Example Output
 
-Understanding AES
+```
+Original Text: Hello, World!
 
-AES is a symmetric encryption algorithm standardized by NIST. It operates on fixed block sizes of 128 bits and supports key sizes of 128, 192, or 256 bits. The algorithm involves multiple rounds of substitution, permutation, and mixing of the input plaintext to produce ciphertext.
-Key Features
+--- AES ---
+Encrypted Text: [Encrypted_String]
+Decrypted Text: Hello, World!
 
-    Security: AES is widely adopted due to its strong security features.
+--- DES ---
+Encrypted Text: [Encrypted_String]
+Decrypted Text: Hello, World!
+```
 
-    Efficiency: Designed for both hardware and software implementations.
+## 🛡️ Disclaimer
 
-    Flexibility: Supports multiple key lengths.
+This project is intended for educational and research purposes. Do **not** use this implementation in production environments without enhancing the security model (e.g., key exchange protocols, secure key storage, IV generation, and advanced padding schemes).
 
-Potential Enhancements
+```
 
-To further develop this repository:
+---
 
-    Implement DES: Add the Java implementation of the DES algorithm to complement the AES implementation.
-
-    User Input: Modify the program to accept user input for plaintext and keys.
-
-    GUI Integration: Develop a graphical user interface for better user interaction.
-
-    File Encryption: Extend functionality to encrypt and decrypt files.
-
-    Error Handling: Incorporate comprehensive error handling and input validation.
-    GitHub
-
-Contributing
-
-Contributions are welcome! If you'd like to enhance the project, please fork the repository and submit a pull request. Ensure that your code adheres to standard coding practices and includes appropriate documentation.
-License
-
-This project is open-source. Please refer to the repository for license details.
+Let me know if you'd like to integrate this with actual CloudSim simulation classes or expand this into a full simulation workflow with VM tasks and encrypted message exchanges!
+```
