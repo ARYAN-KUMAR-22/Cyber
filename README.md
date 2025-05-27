@@ -7,9 +7,11 @@ This project demonstrates a secure communication framework for Virtual Machines 
 ```
 
 AESandDES/
-├── AES.java         # AES encryption and decryption logic
-├── DES.java         # DES encryption and decryption logic
-└── Test.java        # Demonstrates encryption/decryption functionality
+├── AesUtils.java  # for AES logic         
+├── AesSim.java    # CloudSim simulation using AES
+├── DesUtils.java   # for DES logic
+├── DesSim.java   # CloudSim simulation using DES
+└── EncryptionUI.java   # Swing UI comparing AES and DES
 
 ````
 
